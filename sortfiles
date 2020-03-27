@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Mar 27 13:26:03 2020
+
+@author: IMAC
+"""
+
+import os
+
+
+def path_allocation():
+    dir_path=input('enter the Path to a directory:\n')
+    if os.path.isdir(dir_path):
+        return dir_path
+    else:
+        dir_path=path_allocation()
+        return dir_path
+
+if __name__=='__main__':
+    
+    directory_location=path_allocation()
+    os.chdir(directory_location)
+    
+    size_dic={}
+    for files in os.listdir(directory_location):
+        if os.path.isfile(files):
+            size_dic[files]=os.stat(files).st_size
+            
+    print(f'\tFile Name{8*" "}\t\tFile Size\n{24*"--"}')
+    for file,size in sorted(size_dic.items(),key=lambda kv:(kv[1],kv[0]),reverse=True):
+        print(f'{file}\t\t----> {size/1000:.03f} Kb')
